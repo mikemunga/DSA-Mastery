@@ -469,5 +469,41 @@ printQueue.enqueue("Photo_B.png");
 printQueue.enqueue("Document_A.pdf");
 printQueue.enqueue("Photo_B.png");
 console.log(printQueue);
+class StuckNode {
+    value;
+    next = null;
+    constructor(value) {
+        this.value = value;
+    }
+}
+class Stack {
+    top = null;
+    size = 0;
+    push(value) {
+        const newNode = new StuckNode(value);
+        if (this.size === 0) {
+            this.top = newNode;
+        }
+        else {
+            newNode.next = this.top;
+            this.top = newNode;
+        }
+        this.size++;
+        return this.size;
+    }
+    pop() {
+        if (this.size === 0)
+            return null;
+        const poppedNode = this.top;
+        this.top = this.top.next;
+        this.size--;
+        return poppedNode.value;
+    }
+}
+const browserHistory = new Stack();
+browserHistory.push('google.com');
+browserHistory.push('github.com');
+browserHistory.push('myreactapp.com');
+console.log(browserHistory.pop());
 export {};
 //# sourceMappingURL=DSA.js.map
