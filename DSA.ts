@@ -1,6 +1,4 @@
-//find the biggest number...linear time complexity 0(N)
-//space complexity is 0(1) because it only stores the max no matter how large the array is 
-//NB the trick is to store the index zero in memory then use that
+
 function findGreatNo(arr: number[]) : number {
   if(arr.length === 0) return 0;
  return Math.max(...arr)
@@ -23,7 +21,7 @@ function duplicateNo(arr: number[]): number[]{
 
 console.log(duplicateNo([1,2,1,3,3,4]))
 
-//reversing an array without creating extra space...we must mutate it..means without extracting out numbers in the aarray and hold them anywhere
+
 
 function reverseArray(arr: number[]){
   if(arr.length<=1) return
@@ -41,7 +39,6 @@ function reverseArray(arr: number[]){
 }
 
 console.log(reverseArray([1,2,3,4]))
-//two pointer 
 
 function findTargetSum(arr:number[], target: number): number[] | null{
   if(arr.length<=1) 0
@@ -64,7 +61,7 @@ function findTargetSum(arr:number[], target: number): number[] | null{
 
 console.log(findTargetSum([1,2,3,4,5,6,9], 13))
 
-//palindrome(str)
+
 function palindrome(str: string):string{
 let left = 0;
 let right=str.length-1;
@@ -80,7 +77,7 @@ let right=str.length-1;
 }
 
 console.log(palindrome('roar'));
-//hint the array is sorted;
+
 
 function removeDuplicate(array: number[]){
   if(array.length<=1) return
@@ -91,11 +88,11 @@ function removeDuplicate(array: number[]){
     array[i] = array[j]!
    }
 }
-//chopping the back numbers which arent unique
+
 array.length =i+1;
 return array
 }
-console.log(removeDuplicate([1,2,3,3,3,3]))
+
 
 
 
@@ -272,7 +269,6 @@ console.log(list)
 
 
 function findTarget(arr: number[], target: number){
-  //this current becomes the complement in teh next iteration
   if(arr.length<=1) return
   let seen: Record<number, number>={};
   for(let i=0; i<arr.length; i++){
@@ -323,7 +319,7 @@ function twoSum(arr: number[], target:number){
   for(let i=0; i<arr.length; i++){
     let current = arr[i]!
     let complement = target-current;
-//this compliment checks for the specific missing piece ie do we a value matching two inside 
+
     if(seen[complement] !==undefined){
       return [seen[complement], i]
     }else{
@@ -412,9 +408,9 @@ const p ={
     {type: "work", street: "456 Merket St", city: "Workville"}
   ]
 }
-//shalow copp
+
 const newPerson = {...p}
-//deep copy 
+
 const deepCopy = structuredClone(p);
 console.log(deepCopy);
 console.log(Object.values(p));
