@@ -148,6 +148,25 @@ class SingleLinkedList {
         }
         return currentHead;
     }
+    reverse() {
+        if (this.length <= 1)
+            return this;
+        let current = this.head;
+        let prev = null;
+        let next = null;
+        this.tail = this.head;
+        while (current !== null) {
+            //store the next
+            next = current.next;
+            //then unlick it
+            current.next = prev;
+            prev = current;
+            //current = next is the loop driver
+            current = next;
+        }
+        this.head = prev;
+        return this;
+    }
     unshift(val) {
         const newNode = new node(val);
         if (!this.head) {
@@ -407,5 +426,48 @@ function addTestScore(studentsDatabase, score) {
     existingGrades.push(score);
     gradesMap.set(score.studentId, existingGrades);
 }
+console.log(list);
+class QueueNode {
+    value;
+    next = null;
+    constructor(value) {
+        this.value = value;
+    }
+}
+class Queue {
+    first = null;
+    last = null;
+    size = 0;
+    enqueue(value) {
+        const newNode = new QueueNode(value);
+        if (this.size === 0) {
+            this.first = newNode;
+            this.last = newNode;
+        }
+        else {
+            this.last.next = newNode;
+            this.last = newNode;
+        }
+        this.size++;
+        return this.size;
+    }
+    deque() {
+        if (this.size === 0)
+            return null;
+        const servedNode = this.first;
+        if (this.first === this.last) {
+            this.last = null;
+        }
+        this.first = this.first.next;
+        this.size--;
+        return servedNode.value;
+    }
+}
+const printQueue = new Queue();
+printQueue.enqueue("Document_A.pdf");
+printQueue.enqueue("Photo_B.png");
+printQueue.enqueue("Document_A.pdf");
+printQueue.enqueue("Photo_B.png");
+console.log(printQueue);
 export {};
 //# sourceMappingURL=DSA.js.map

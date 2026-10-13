@@ -177,6 +177,30 @@ class SingleLinkedList<T> {
     return currentHead
   }
 
+  reverse(){
+    if(this.length<=1) return this;
+    let current = this.head;
+    let prev = null;
+    let next = null;
+
+    this.tail = this.head
+
+    while(current !==null){
+      //store the next
+      next = current.next;
+      //then unlick it
+
+      current.next= prev;
+      prev = current;
+
+      //current = next is the loop driver
+      current = next  
+    }
+
+    this.head = prev;
+    return this
+  }
+
   unshift (val: T) {
     const newNode = new node(val)
     if(!this.head){
@@ -490,4 +514,59 @@ function addTestScore(studentsDatabase: StudentsProfile[],score:GradeRecord){
   const existingGrades = gradesMap.get(score.studentId) || [];
   existingGrades.push(score);
   gradesMap.set(score.studentId, existingGrades);
+
+  
+
 }
+
+console.log(list)
+
+
+class QueueNode<T> {
+  value: T;
+  next: QueueNode<T> | null = null;
+  constructor (value: T) {
+    this.value = value;
+  }
+}
+
+
+
+class Queue<T> {
+  first: QueueNode<T> | null = null;
+  last: QueueNode<T> | null = null;
+  size :number = 0;
+
+
+  enqueue(value: T): number {
+    const newNode = new QueueNode(value)
+    if(this.size === 0) {
+      this.first = newNode;
+      this.last = newNode
+    } else {
+      this.last!.next = newNode;
+      this.last = newNode
+    }
+    this.size++;
+    return this.size
+  }
+  deque(): T | null{
+    if(this.size === 0) return null;
+    const servedNode = this.first!;
+
+    if(this.first === this.last) {
+      this.last = null;
+    }
+    this.first = this.first!.next;
+    this.size--;
+    return servedNode.value
+  }
+}
+
+
+const printQueue = new Queue<string>();
+printQueue.enqueue("Document_A.pdf");
+printQueue.enqueue("Photo_B.png");
+printQueue.enqueue("Document_A.pdf");
+printQueue.enqueue("Photo_B.png")
+console.log(printQueue)
