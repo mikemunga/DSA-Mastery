@@ -1,0 +1,497 @@
+//find the biggest number...linear time complexity 0(N)
+//space complexity is 0(1) because it only stores the max no matter how large the array is 
+//NB the trick is to store the index zero in memory then use that
+function findGreatNo(arr: number[]) : number {
+  if(arr.length === 0) return 0;
+ return Math.max(...arr)
+}
+
+console.log(findGreatNo([34,12,6,8,9]))
+
+function duplicateNo(arr: number[]): number[]{
+ const seen = new Set<number>();
+ const duplicates = new Set<number>();
+ for(const num of arr){
+  if(seen.has(num)){
+    duplicates.add(num)
+  } else {
+    seen.add(num)
+  }
+ }
+ return Array.from(duplicates);
+}
+
+console.log(duplicateNo([1,2,1,3,3,4]))
+
+//reversing an array without creating extra space...we must mutate it..means without extracting out numbers in the aarray and hold them anywhere
+
+function reverseArray(arr: number[]){
+  if(arr.length<=1) return
+
+    let left = 0;
+    let right = arr.length -1;
+
+    while(left < right) {
+        [arr[left], arr[right]] = [arr[right]!, arr[left]!];
+
+        left++
+        right--
+    }
+    return arr;
+}
+
+console.log(reverseArray([1,2,3,4]))
+//two pointer 
+
+function findTargetSum(arr:number[], target: number): number[] | null{
+  if(arr.length<=1) 0
+
+    let left = 0;
+    let right = arr.length -1;
+    while(left<right){
+    let currentSum = arr[left]! + arr[right]!
+      if(currentSum === target){
+        return [arr[left]!, arr[right]!]
+      } else if(currentSum > target){
+        right--;
+      }else {
+        left++
+      }
+    }
+    return null
+}
+
+
+console.log(findTargetSum([1,2,3,4,5,6,9], 13))
+
+//palindrome(str)
+function palindrome(str: string):string{
+let left = 0;
+let right=str.length-1;
+
+  while(left<right){
+    if(str[left] !== str[right]){
+        return 'not'
+    }
+    left++
+    right--
+  }
+  return ' palindrome'
+}
+
+console.log(palindrome('roar'));
+//hint the array is sorted;
+
+function removeDuplicate(array: number[]){
+  if(array.length<=1) return
+  let i=0;
+  for(let j=1; j<array.length; j++){
+   if(array[j] !==array[i]){
+    i++
+    array[i] = array[j]!
+   }
+}
+//chopping the back numbers which arent unique
+array.length =i+1;
+return array
+}
+console.log(removeDuplicate([1,2,3,3,3,3]))
+
+
+
+
+class node<T> {
+  name: T;
+  next: node<T> |null = null
+  constructor(name: T){
+    this.name = name;
+    this.next =null;
+  }
+}
+
+class SingleLinkedList<T> {
+  head: node<T> | null;
+  tail: node<T> | null;
+  length: number
+  constructor(){
+    this.head=null;
+    this.tail=null;
+    this.length=0;
+  }
+
+  push(value: T){
+  const newNode= new node(value);
+  if(!this.head) {
+    this.head= newNode;
+    this.tail = this.head
+  }else{
+    if(this.tail) {
+      this.tail.next = newNode
+      this.tail = newNode
+    }
+  }
+  this.length++;
+  return this;
+  }
+ 
+  print() {
+    let current = this.head;
+    let output='';
+
+    while(current !==null){
+      output +=current.name + "_>";
+      current = current.next
+    }
+    console.log(output + "null")
+  }
+
+  pop(){
+    if(!this.head) return undefined;
+
+   const poppedNode = this.tail;
+   if(this.head === this.tail) {
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
+    return poppedNode;
+   }
+   
+   let current = this.head;
+   while(current.next !==null && current.next.next !==null) {
+    current = current.next;
+   }
+   this.tail = current;
+   this.tail.next = null;
+   this.length--;
+
+   return poppedNode;
+  }
+
+ 
+  shift() {
+    if(!this.head) return undefined;
+    let currentHead = this.head;
+    this.head = currentHead.next;
+    this.length--;
+
+    if(this.length === 0){
+      this.tail=null;
+    }
+    return currentHead
+  }
+
+  unshift (val: T) {
+    const newNode = new node(val)
+    if(!this.head){
+     this.head = newNode;
+     this.tail=newNode; 
+    } else {
+      newNode.next = this.head;
+      this.head = newNode;
+    }
+   this.length++;
+    return this
+  }
+
+  get(index: number) :node<T> | null{
+    if(index>=this.length || index<0) return null;
+    let current = this.head;
+    let counter = 0;
+
+    while(counter<index && current){
+      current = current.next;
+      counter++;
+    }
+    return(current)
+  }
+
+  set(index: number, value:T): boolean {
+    let foundNode = this.get(index)
+    if(foundNode){
+      foundNode.name = value
+      return true
+  }
+  return false;
+}
+
+insert(val: T, index: number): boolean {
+  if(index < 0 || index > this.length) return false;
+
+  if(index === 0) {
+    this.unshift(val);
+    return true;
+  }
+  if(index === this.length ) {
+    this.push(val);
+    return true
+  }
+
+  const newNode = new node(val);
+  const prev = this.get (index -1);
+
+  if(prev) {
+    newNode.next = prev.next;
+    prev.next = newNode;
+    this.length++;
+    return true
+  }
+  return false
+}
+
+remove(index: number) : node<T> | null |undefined {
+if(index < 0 || index>=this.length) return null;
+
+if(index === this.length -1) return this.pop();
+
+const prev = this.get(index -1);
+
+if(prev && prev.next) {
+  const removedNode = prev.next;
+  prev.next = removedNode.next;
+  this.length--;
+  return removedNode
+}
+return null;
+}
+
+}
+
+
+const list = new SingleLinkedList();
+list.push('hello world');
+list.push('hello world 2');
+list.push('hello world 3');
+list.push('hello world 4');//
+list.push('hello world 5');  
+list.unshift('hello javascript') 
+
+
+
+console.log(list)
+
+
+
+function findTarget(arr: number[], target: number){
+  //this current becomes the complement in teh next iteration
+  if(arr.length<=1) return
+  let seen: Record<number, number>={};
+  for(let i=0; i<arr.length; i++){
+    let current = arr[i]!;
+    let complement = target-current!;
+
+    if(seen[complement] !==undefined){
+      return [seen[complement], current]
+    }else{
+      seen[current] = i; 
+    }
+  }
+  return null
+}
+
+function findDuplicat(array:number[]){
+  if(array.length<=1) return
+  let seen: Record<number, number> = {};
+  for(let i=0; i<array.length; i++){
+    let current = array[i]!;
+    if(seen[current] !==undefined){
+      return true
+    } else {
+      seen[current] = current
+    }
+  }
+  return seen
+}
+
+console.log(findDuplicat([2,3,3,7,4,23,56,100]))
+
+function anagram(str: string){
+  if(str.length<=1) return
+  let counter: Record<string, number> ={};
+  for(let i=0; i<str.length; i++){
+    let seen = str[i]!
+    if(counter[seen] !==undefined){
+      counter[seen] ++
+    }else{
+      counter[seen] = 1
+    }
+  } 
+  return counter
+}
+function twoSum(arr: number[], target:number){
+  if(arr.length<=1) return
+  let seen:Record<string, number> = {};
+  for(let i=0; i<arr.length; i++){
+    let current = arr[i]!
+    let complement = target-current;
+//this compliment checks for the specific missing piece ie do we a value matching two inside 
+    if(seen[complement] !==undefined){
+      return [seen[complement], i]
+    }else{
+      seen[current] = i
+    }
+  }
+}
+
+console.log(twoSum([2,3,3,56,7,8],64))
+
+
+function validString(str: string){
+  let array: string[] = [];
+  for(let i=0; i<str.length; i++){
+    let current=str[0];
+    if(array[i] ===current){
+    }
+  }
+}
+
+
+
+function test(array: number[], target: number) {
+  if(array.length<=1) return
+  let store: Record<string, number> = {};
+  for(let i=0; i<array.length; i++){
+    let current = array[i]!;
+    let complement = target-current;
+
+    if(store[complement] !==undefined){
+      return [store[complement], i]
+    } else {
+      store[current] = i
+    }
+  }
+}
+console.log(test([2,7,11,15], 9))
+
+
+
+function reverse1(str: string): string{
+  if(str.length<=1) return "not input"
+
+  let arr=str.split('')
+  let left=0;
+  let right = str.length -1;
+  while(left < right){
+    [arr[left], arr[right]] = [str[right]!, str[left]!];
+    left++;
+    right--
+  }
+  return arr.join('');
+}
+console.log(reverse1('hello'))
+
+
+function sliding(array:number[], k:number){
+  if(array.length<=1) return 0;
+  let currentSum=0
+  
+if(array.length < k) return 0;
+for(let i=0; i<k; i++){
+  currentSum +=array[i]!
+}
+let maxSum = currentSum;
+
+for(let i=k; i<array.length; i++){
+  currentSum = currentSum + array[i]! - array[i-k]!;
+  maxSum = Math.max(maxSum, currentSum)
+}
+
+return maxSum
+}
+console.log(sliding([1,2,3,4,5,6,7,8],2))
+
+let records={
+  hello:'name'
+}
+
+
+
+
+const p ={
+  name: 'Alice', age: 30, addresses: [
+    {type: "home", home:'123 main st', city: "Anytown"},
+    {type: "work", street: "456 Merket St", city: "Workville"}
+  ]
+}
+//shalow copp
+const newPerson = {...p}
+//deep copy 
+const deepCopy = structuredClone(p);
+console.log(deepCopy);
+console.log(Object.values(p));
+
+
+interface StudentsProfile {
+  studentId: string;
+  studentName: string;
+  classGrade: string
+}
+
+interface GradeRecord {
+  id: string;
+  studentId: string;
+  score: number;
+  teacherComments?: string
+  updatedDate: Date;
+}
+
+
+
+const studentsDatabase: StudentsProfile[] = [
+  {
+    studentId: "STU-101",
+    studentName: "Alex",
+    classGrade: "Grade 5"
+  },
+   {
+    studentId: "STU-102",
+    studentName: "jimy",
+    classGrade: "Grade 5"
+  },
+    {
+    studentId: "STU-103",
+    studentName: "maggy",
+    classGrade: "Grade 5"
+  },
+   {
+    studentId: "STU-104",
+    studentName: "Sarah Smith",
+    classGrade: "Grade 6"
+  },
+    {
+    studentId: "STU-105",
+    studentName: "miriam",
+    classGrade: "Grade 6"
+  },
+   {
+    studentId: "STU-105",
+    studentName: "janet",
+    classGrade: "Grade 6"
+  }
+]
+
+
+
+function parentLogin(enteredId: string):StudentsProfile | string {
+ const matchedStudent =studentsDatabase.find(st=>st.studentId === enteredId);
+ if(matchedStudent) {
+  return console.log(matchedStudent)!
+ }
+ console.log('no student available with this id');
+ return 'no student found with this id'
+}
+
+
+
+const studentMap = new Map<string, StudentsProfile>();
+studentsDatabase.forEach(student=> studentMap.set(student.studentId, student));
+ 
+const gradesMap = new Map<string, GradeRecord[]>();
+function addTestScore(studentsDatabase: StudentsProfile[],score:GradeRecord){
+  const studentExists = studentMap.has(score.studentId);
+  if(!studentExists){
+    return
+  }
+  const existingGrades = gradesMap.get(score.studentId) || [];
+  existingGrades.push(score);
+  gradesMap.set(score.studentId, existingGrades);
+}
