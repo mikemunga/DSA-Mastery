@@ -612,3 +612,12 @@ browserHistory.push('google.com')
 browserHistory.push('github.com')
 browserHistory.push('myreactapp.com')
 console.log(browserHistory.pop())
+
+function recurssion(value: number){
+ if(value <=0 ) return;
+ console.log(value)
+ value =value - 1
+ recurssion(value)
+}
+
+recurssion(5)
