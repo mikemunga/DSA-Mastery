@@ -620,4 +620,40 @@ function recurssion(value: number){
  recurssion(value)
 }
 
-recurssion(5)
+recurssion(5);
+
+
+
+
+
+function mergeSort(arr: number[]) {
+
+  if(arr.length <=1) {
+    return arr;
+  }
+  const mid = Math.floor(arr.length / 2);
+  const leftPart = mergeSort(arr.slice(0, mid));
+  const rightPart = mergeSort(arr.slice(mid));
+  const sortedResult: number[] = [];
+  let i = 0;
+  let j = 0;
+  while (i < leftPart!.length && j < rightPart!.length) {
+    if(leftPart[i]! < rightPart[j]!) {
+      sortedResult.push(leftPart[i]!);
+      i++;
+    } else {
+      sortedResult.push(rightPart[j]!);
+      j++
+    }
+  }
+  while(i < leftPart.length) {
+    sortedResult.push(leftPart[i]!);
+    i++
+  }
+  while(j < rightPart.length) {
+    sortedResult.push(rightPart[j]!);
+    j++
+  }
+  return sortedResult;
+}
+console.log(mergeSort([1,4,3,7,  5,6,9,2]))
