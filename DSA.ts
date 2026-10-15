@@ -627,16 +627,17 @@ recurssion(5);
 
 
 function mergeSort(arr: number[]) {
-
   if(arr.length <=1) {
     return arr;
   }
   const mid = Math.floor(arr.length / 2);
+
   const leftPart = mergeSort(arr.slice(0, mid));
   const rightPart = mergeSort(arr.slice(mid));
   const sortedResult: number[] = [];
   let i = 0;
   let j = 0;
+
   while (i < leftPart!.length && j < rightPart!.length) {
     if(leftPart[i]! < rightPart[j]!) {
       sortedResult.push(leftPart[i]!);
@@ -654,6 +655,95 @@ function mergeSort(arr: number[]) {
     sortedResult.push(rightPart[j]!);
     j++
   }
+
   return sortedResult;
 }
-console.log(mergeSort([1,4,3,7,  5,6,9,2]))
+
+
+  console.log(mergeSort([2,7,5,4,  10,3,1,0]))
+
+
+
+
+  function stich(arr1:number[], arr2:number[]): number[] {
+    let sortedResult: number[] =[];
+    let i: number = 0;
+    let j: number  = 0;
+  
+    while(i < arr1.length && j < arr2.length) {
+      if(arr1[i]! < arr2[j]!) {
+        sortedResult.push(arr1[i]!)
+        i++
+      } else {
+        sortedResult.push(arr2[j]!)
+        j++
+      }
+    }
+
+
+    return sortedResult
+    .concat(arr1.slice(i))
+    .concat(arr2.slice(j))
+  }
+ console
+  console.log(stich([1,2,3,4], [5,6,7,8]));
+
+console.log('**********')
+
+
+  function sort(arr: number[]) {
+
+   if(arr.length <=1) return arr;
+   let mid = Math.floor(arr.length/2);
+
+   let left = arr.slice(0,mid);
+    
+   let right = arr.slice(mid);
+   //these sorted right and sorted left are the names of the sub arrays
+   let sortedLeft:number[] = sort(left);
+   let sortedRight: number[]= sort(right);
+   
+   let i = 0;
+   let j = 0;
+   let sortedResult : number[] = [];
+   //this result array holds micro arrys with names left and right and each stage
+  while(i< sortedLeft.length && j< sortedRight.length) {
+    if(sortedLeft[i]! > sortedRight[j]!) {
+      sortedResult.push(sortedLeft[i]!);
+      i++  
+      
+    } else {
+      sortedResult.push(sortedRight[j]!);
+      j++
+    }
+    
+  }
+
+  return sortedResult
+  .concat(sortedLeft.slice(i))
+  .concat(sortedRight.slice(j))
+
+  }
+
+ console.log(sort([34,23,10,25,30,50,70,80]))
+ 
+function quickSort(arr: number[]): number[] {
+  if(arr.length <= 1) return arr
+
+  let pivot = arr[arr.length -1]!;
+
+  let lesser: number[] = [];
+  let greater: number[] = [];
+
+  for(let i=0; i<arr.length -1; i++) {
+     if(arr[i]! < pivot!) {
+       lesser.push(arr[i]!)
+      } else {
+      greater.push(arr[i]!)
+   }
+  }
+
+  return [...quickSort(lesser), pivot, ...quickSort(greater)]
+}
+
+console.log(quickSort([34, 23, 10, 25]));

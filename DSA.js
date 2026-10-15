@@ -543,6 +543,72 @@ function mergeSort(arr) {
     }
     return sortedResult;
 }
-console.log(mergeSort([1, 4, 3, 7, 5, 6, 9, 2]));
+console.log(mergeSort([2, 7, 5, 4, 10, 3, 1, 0]));
+function stich(arr1, arr2) {
+    let sortedResult = [];
+    let i = 0;
+    let j = 0;
+    while (i < arr1.length && j < arr2.length) {
+        if (arr1[i] < arr2[j]) {
+            sortedResult.push(arr1[i]);
+            i++;
+        }
+        else {
+            sortedResult.push(arr2[j]);
+            j++;
+        }
+    }
+    return sortedResult
+        .concat(arr1.slice(i))
+        .concat(arr2.slice(j));
+}
+console;
+console.log(stich([1, 2, 3, 4], [5, 6, 7, 8]));
+console.log('**********');
+function sort(arr) {
+    if (arr.length <= 1)
+        return arr;
+    let mid = Math.floor(arr.length / 2);
+    let left = arr.slice(0, mid);
+    let right = arr.slice(mid);
+    //these sorted right and sorted left are the names of the sub arrays
+    let sortedLeft = sort(left);
+    let sortedRight = sort(right);
+    let i = 0;
+    let j = 0;
+    let sortedResult = [];
+    //this result array holds micro arrys with names left and right and each stage
+    while (i < sortedLeft.length && j < sortedRight.length) {
+        if (sortedLeft[i] > sortedRight[j]) {
+            sortedResult.push(sortedLeft[i]);
+            i++;
+        }
+        else {
+            sortedResult.push(sortedRight[j]);
+            j++;
+        }
+    }
+    return sortedResult
+        .concat(sortedLeft.slice(i))
+        .concat(sortedRight.slice(j));
+}
+console.log(sort([34, 23, 10, 25, 30, 50, 70, 80]));
+function quickSort(arr) {
+    if (arr.length <= 1)
+        return arr;
+    let pivot = arr[arr.length - 1];
+    let lesser = [];
+    let greater = [];
+    for (let i = 0; i < arr.length - 1; i++) {
+        if (arr[i] < pivot) {
+            lesser.push(arr[i]);
+        }
+        else {
+            greater.push(arr[i]);
+        }
+    }
+    return [...quickSort(lesser), pivot, ...quickSort(greater)];
+}
+console.log(quickSort([34, 23, 10, 25]));
 export {};
 //# sourceMappingURL=DSA.js.map
