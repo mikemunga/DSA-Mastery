@@ -21,8 +21,6 @@ function duplicateNo(arr: number[]): number[]{
 
 console.log(duplicateNo([1,2,1,3,3,4]))
 
-
-
 function reverseArray(arr: number[]){
   if(arr.length<=1) return
 
@@ -881,7 +879,7 @@ console.log(counter([1,2,3,4]))
 
 class Names<T> {
   name: T
-  next:Names<T> | null = null
+  next:Names<T> | null = null 
 
   constructor(name: T){
     this.name = name
@@ -1156,8 +1154,93 @@ function countFolders(folder): number {
 
  for (const sub of folder.subfolders){
    total+= countFolders(sub);
+
+  
  }
  return total
 }
 
-console.log(countFolders(myComputer))
+
+
+
+
+
+
+interface Folder {
+  name: string;
+  files: string[];
+  subfolders:Folder[];
+} 
+
+function findFolderByName(folder: Folder, targetName: string): Folder | null {
+  
+  
+  if (folder.name === targetName) {
+    return folder; 
+  }
+
+  
+  for (const sub of folder.subfolders) {
+  
+    let result = findFolderByName(sub, targetName);  
+    if(result !==null) {
+      return result
+    }
+  
+  }
+  return null;
+}
+
+
+    
+console.log(findFolderByName(myComputer, "Music")); 
+
+
+class TreeNode {
+  value: number;
+  left: TreeNode | null;
+  right: TreeNode | null
+
+  constructor (value: number){
+    this.value=value
+    this.left = null
+    this.right = null
+  }
+}
+
+
+class TreeNode1 {
+  value: number;
+  left: TreeNode | null = null;
+  right: TreeNode | null = null;
+
+  constructor(value: number) {
+    this.value = value;
+  }
+}
+
+function insertNode(root: TreeNode1 | null, newValue: number): TreeNode1 {
+  
+  if (root === null) {
+    return new TreeNode1(newValue);
+  }
+
+ 
+  if (newValue < root.value) {
+    root.left = insertNode(root.left, newValue)
+  } else if (newValue > root.value) {
+
+    root.right = insertNode(root.right, newValue)
+  }
+
+ 
+  return root;
+}
+let nodeA = new TreeNode1(23);
+let nodeB = new TreeNode1(10);
+let nodeC = new TreeNode1(5);
+
+nodeA.left = nodeB
+nodeB.left = nodeC
+insertNode(nodeA, 100)
+console.log(nodeA)

@@ -935,6 +935,55 @@ function countFolders(folder) {
     }
     return total;
 }
-console.log(countFolders(myComputer));
+function findFolderByName(folder, targetName) {
+    if (folder.name === targetName) {
+        return folder;
+    }
+    for (const sub of folder.subfolders) {
+        let result = findFolderByName(sub, targetName);
+        if (result !== null) {
+            return result;
+        }
+    }
+    return null;
+}
+console.log(findFolderByName(myComputer, "Music"));
+class TreeNode {
+    value;
+    left;
+    right;
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+class TreeNode1 {
+    value;
+    left = null;
+    right = null;
+    constructor(value) {
+        this.value = value;
+    }
+}
+function insertNode(root, newValue) {
+    if (root === null) {
+        return new TreeNode1(newValue);
+    }
+    if (newValue < root.value) {
+        root.left = insertNode(root.left, newValue);
+    }
+    else if (newValue > root.value) {
+        root.right = insertNode(root.right, newValue);
+    }
+    return root;
+}
+let nodeA = new TreeNode1(23);
+let nodeB = new TreeNode1(10);
+let nodeC = new TreeNode1(5);
+nodeA.left = nodeB;
+nodeB.left = nodeC;
+insertNode(nodeA, 100);
+console.log(nodeA);
 export {};
 //# sourceMappingURL=DSA.js.map
