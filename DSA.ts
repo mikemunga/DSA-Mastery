@@ -39,6 +39,7 @@ function reverseArray(arr: number[]){
 }
 
 console.log(reverseArray([1,2,3,4]))
+//sorted array only
 
 function findTargetSum(arr:number[], target: number): number[] | null{
   if(arr.length<=1) 0
@@ -83,28 +84,29 @@ function removeDuplicate(array: number[]){
   if(array.length<=1) return
   let i=0;
   for(let j=1; j<array.length; j++){
-   if(array[j] !==array[i]){
+   if(array[i] !==array[j]){
     i++
     array[i] = array[j]!
+    
    }
 }
 
 array.length =i+1;
 return array
 }
-
-
+console.log(removeDuplicate([1,2,2,3,3,3]))
 
 
 
 class node<T> {
   name: T;
-  next: node<T> |null = null
+  next: node<T> | null = null
   constructor(name: T){
     this.name = name;
     this.next =null;
   }
 }
+
 
 class SingleLinkedList<T> {
   head: node<T> | null;
@@ -115,6 +117,7 @@ class SingleLinkedList<T> {
     this.tail=null;
     this.length=0;
   }
+
 
   push(value: T){
   const newNode= new node(value);
@@ -130,10 +133,11 @@ class SingleLinkedList<T> {
   this.length++;
   return this;
   }
+
  
   print() {
     let current = this.head;
-    let output='';
+    let output="";
 
     while(current !==null){
       output +=current.name + "_>";
@@ -154,7 +158,7 @@ class SingleLinkedList<T> {
    }
    
    let current = this.head;
-   while(current.next !==null && current.next.next !==null) {
+   while(current.next && current.next !==this.tail) {
     current = current.next;
    }
    this.tail = current;
@@ -177,6 +181,9 @@ class SingleLinkedList<T> {
     return currentHead
   }
 
+
+
+  
   reverse(){
     if(this.length<=1) return this;
     let current = this.head;
@@ -234,6 +241,8 @@ class SingleLinkedList<T> {
   }
   return false;
 }
+
+
 
 insert(val: T, index: number): boolean {
   if(index < 0 || index > this.length) return false;
@@ -691,6 +700,7 @@ function mergeSort(arr: number[]) {
 console.log('**********')
 
 
+
   function sort(arr: number[]) {
 
    if(arr.length <=1) return arr;
@@ -699,37 +709,36 @@ console.log('**********')
    let left = arr.slice(0,mid);
     
    let right = arr.slice(mid);
-   //these sorted right and sorted left are the names of the sub arrays
    let sortedLeft:number[] = sort(left);
    let sortedRight: number[]= sort(right);
    
    let i = 0;
    let j = 0;
    let sortedResult : number[] = [];
-   //this result array holds micro arrys with names left and right and each stage
-  while(i< sortedLeft.length && j< sortedRight.length) {
+   
+  while(i < sortedLeft.length && j < sortedRight.length) {
     if(sortedLeft[i]! > sortedRight[j]!) {
       sortedResult.push(sortedLeft[i]!);
       i++  
-      
+      console.log(sortedLeft, sortedRight)
     } else {
       sortedResult.push(sortedRight[j]!);
       j++
-    }
-    
+    } 
   }
 
   return sortedResult
   .concat(sortedLeft.slice(i))
   .concat(sortedRight.slice(j))
-
   }
 
- console.log(sort([34,23,10,25,30,50,70,80]))
+
+
+ console.log(sort([34,23,10,25, 30,50,70,80]))
  
 function quickSort(arr: number[]): number[] {
   if(arr.length <= 1) return arr
-
+ //this pivot shrinks the array on each call
   let pivot = arr[arr.length -1]!;
 
   let lesser: number[] = [];
@@ -742,8 +751,413 @@ function quickSort(arr: number[]): number[] {
       greater.push(arr[i]!)
    }
   }
-
+// we start the pivot in between the lesser and the greater and takeout the greater of each side
   return [...quickSort(lesser), pivot, ...quickSort(greater)]
 }
 
-console.log(quickSort([34, 23, 10, 25]));
+console.log(quickSort([34,23,10,25,100,200,300,30,50,70,80]));
+
+
+
+function binarySearch(arr:number[], target:number): number {
+  let left = 0;
+  let right = arr.length - 1;
+
+  
+  while(left <= right) {
+  let mid = Math.floor((left+right)/2);
+  let midNo = arr[mid];
+    if(midNo === target) {
+      return midNo
+    } else if (midNo! > target) {
+     right = mid-1
+    } else {
+      left = mid + 1
+    }
+  }
+  return -1
+}
+
+console.log(binarySearch([1,2,3,4,5,6,7],3))
+//graphs and network traversals next topic
+
+
+
+
+function rangeGenerator(startNum: number, endNum:number) :number[]{
+  if(startNum > endNum) return []
+  if(startNum === endNum) {
+    return [startNum]
+  }
+
+ return [startNum,...rangeGenerator(startNum+1, endNum)]
+}
+
+console.log(rangeGenerator(10, 20))
+
+
+function countDown(num: number): void {
+  if(num === 0) {
+    return 
+  }
+  console.log(num)
+  countDown(num -1)
+}
+
+countDown(5)
+
+function factoral(num: number) : number {
+  if(num === 1){
+    return num
+  }
+
+  let number = factoral(num -1) * num
+  return number
+}
+
+console.log(factoral(5))
+
+
+function byTen(num:number):number{
+  if(num === 1)  return num
+  let number = byTen(num-1) * 100
+  return number
+}
+
+console.log(byTen(5))
+
+function countOccurrences(arr:number[], target:number): number{
+
+  if(arr.length === 0){
+    return 0
+  }
+  if(arr[0] === target) {
+    return 1+ countOccurrences(arr.slice(1), target)
+  }
+  return 0 + countOccurrences(arr.slice(1), target)
+
+}
+
+console.log(countOccurrences([1,2,3,3,3,5],3))
+
+function double(arr:number[]):number[]{
+  if(arr.length === 0){
+    return []
+  }
+  return[arr[0]!* 2,...double(arr.slice(1))]
+}
+
+console.log(double([2,2,2,2]))
+
+
+function findTarg(arr:number[], target:number): boolean {
+  let i = 0;
+  let j=arr.length-1;
+
+  while(i<j){
+  let currentSum = arr[i]! + arr[j]!
+   if(currentSum === target){
+    return true
+   } else if(currentSum< target){
+    i++
+   } else {
+    j--
+   }
+  }
+  return false
+}
+
+function counter(arr:number[]): number[] {
+ if(arr.length<1) return []
+ let current = arr[0];
+ let rest = arr.slice(1);
+ return [current!/2,...counter(rest)]
+  
+}
+
+console.log(counter([1,2,3,4]))
+
+
+
+class Names<T> {
+  name: T
+  next:Names<T> | null = null
+
+  constructor(name: T){
+    this.name = name
+    this.next = null
+  }
+
+}
+
+
+
+
+
+class List<T> {
+  length:number=0;
+  head: Names<T> |null=null
+  tail: Names<T> | null
+
+
+  constructor(){
+    this.length = length
+    this.head = null
+    this.tail = null
+
+  }
+
+  push(val:T){
+    let newNode = new Names(val)
+  
+    if(!this.head){
+      this.head = newNode
+      this.tail = newNode
+    }
+    this.tail!.next = newNode
+    this.tail = newNode
+    this.length++
+    return this
+  
+  }
+ 
+  pop(){
+    if(this.length ===0) return;
+    let currentNode = this.head
+    let poppedNode=null
+    if(this.head === this.tail){
+     poppedNode = currentNode
+     this.length = 0;
+     this.head = null
+     this.tail = null
+     return poppedNode;
+    }
+    
+    while(currentNode && currentNode.next !== this.tail){
+      currentNode = currentNode.next
+    }
+
+    poppedNode = currentNode!.next
+    this.tail = currentNode
+    this.tail!.next = null
+    this.length--
+    return poppedNode
+  }
+
+  get(val: T) {
+    if(this.length === 0) return undefined
+    let currentNode = this.head;
+    
+    while(currentNode !==null){
+      if(val === currentNode!.name){
+        return currentNode
+      }
+     currentNode= currentNode!.next
+      
+    }
+    return undefined
+  }
+
+ 
+
+  shift(){
+    if(this.length === 0) return undefined;
+    let currentHead = this.head
+    if(currentHead === this.tail){
+     return this.pop()
+    }
+    this.head = currentHead!.next
+    this.length--
+    return currentHead
+  }
+  unshift(val: T){
+    if(this.length === 0 ){
+      return this.push
+    }
+
+    let currentHead = this.head
+    let newNode = new Names(val);
+    this.head = newNode;
+    this.head.next = currentHead
+  }
+
+  find(index: number) {
+    if(this.length === 0) return undefined
+    let currentNode = this.head;
+    if(index > this.length){
+      return undefined
+    }
+    let counter = 0
+    while(counter < index) {
+      currentNode = currentNode!.next
+      counter++
+    }
+    return currentNode
+     
+  }
+  findIndex(value:T){
+    let currentNode = this.head
+    let count = 0
+    while(currentNode !==null){
+      if(currentNode.name <= value){
+       return count
+      }
+      currentNode = currentNode.next
+      count++
+    }
+    return -1
+  }
+  reverse(){
+    let prev = null
+    let currentNode = this.head;
+    let next = null
+
+    while(currentNode !== null){
+      next = currentNode!.next
+      currentNode.next = prev;
+      prev = currentNode
+      currentNode = next
+
+    }
+
+  }
+
+  insert( index:number, value:T) {
+    
+    if(this.length === 0) return this.push
+    if(index === 0) return this.unshift(value)
+    let currentNode = this.head
+    let count = 0;
+    let prev = null
+    let newNode = new Names(value)
+
+    while(count < index-1){
+      currentNode = currentNode!.next
+      count++
+    }
+    prev = currentNode;
+    currentNode = prev!.next
+    newNode.next = currentNode;
+    prev!.next = newNode
+    this.length++
+   return this
+  }
+
+  delete(index:number){
+    if(this.length ===0) return null
+    if(index === this.length-1){
+      this.length--
+      return this.pop
+    }else if(index === 0){
+      return this.shift()
+    }
+
+ 
+
+    let currentNode = this.head
+    let count = 0
+    let prev= null
+    
+    while(count < index){
+      currentNode = currentNode!.next
+      count++
+    }
+    prev = currentNode
+    currentNode = prev!.next
+    prev!.next = currentNode!.next
+    currentNode!.next = null
+    this.length--
+    
+
+  }
+  print(){
+    if(this.length === 0) return undefined
+    let data = [];
+    let currentNode = this.head
+   
+    while(currentNode !==null){
+      data.push(currentNode.name)
+      currentNode = currentNode!.next
+    }
+    return(data)
+  }
+}
+
+const myNames = new List<string>()
+myNames.push("Apple")
+myNames.push("Banana")
+myNames.push("orange")
+myNames.push("pineapple")
+console.log(myNames)
+
+console.log(myNames.insert(2, 'Juice'))
+console.log(myNames.print())
+
+function nums(arr: number[]): number {
+  if(arr.length  < 1) {
+    return 0
+  }
+
+  let num = arr[0]
+  let rest = arr.slice(1);
+
+  return nums(rest) + num!
+}
+
+console.log(nums([1,2,3,4,5]))
+
+
+function multiply(arr:number[]):number{
+ 
+if(arr.length === 1) {
+  return arr[0]!
+}
+let currentNum = arr[0]
+let rest = arr.slice(1)
+  return currentNum! * multiply(rest)
+}
+console.log(multiply([2,3,4]))
+
+
+
+
+
+
+
+const myComputer = {
+  name: "Root",
+  files: ["photo.jpg", "notes.txt"], 
+  subfolders: [
+
+    {
+      name: "Documents",
+      files: ["resume.pdf"], 
+
+      subfolders: [
+        {
+          name: "Taxes",
+          files: ["2025_tax.pdf", "2026_tax.pdf"], 
+          subfolders: [] 
+        }
+      ]
+    },
+
+
+    {
+      name: "Music",
+      files: ["song.mp3"], 
+      subfolders: []
+    }
+  ]
+};
+
+function countFolders(folder): number {
+ let total = 1
+
+ for (const sub of folder.subfolders){
+   total+= countFolders(sub);
+ }
+ return total
+}
+
+console.log(countFolders(myComputer))
