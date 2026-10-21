@@ -1293,6 +1293,7 @@ function flattenArray(array:any[], acc:any[] = []):any[] {
   let rest = array.slice(1)
 
   if(Array.isArray(first)){
+    //keep the conveyor belt forward
     return flattenArray(rest,[...acc, ...flattenArray(first)])
   } else{
     return flattenArray(rest, [...acc, first])
@@ -1301,3 +1302,104 @@ function flattenArray(array:any[], acc:any[] = []):any[] {
 }
 
 console.log(flattenArray([1,2,3,[34,18,[90,56,[90,100]]]]))
+
+
+
+
+interface Comment {
+  id: string;
+  author: string;
+  text: string;
+  replies: Comment[];
+}
+
+class ThreadEngine {
+  
+  countTotalComments(threads: Comment[], acc: number = 0): number {
+    if (threads.length < 1) return acc;
+
+    const current = threads[0];
+    const rest = threads.slice(1);
+
+
+    const currentWithRepliesCount = 1 + this.countTotalComments(current!.replies, 0);
+
+    return this.countTotalComments(rest, acc + currentWithRepliesCount);
+  }
+
+  
+  flattenThreads(threads: Comment[], acc: any[] = []): any[] {
+    if (threads.length < 1) return acc;
+
+    const current = threads[0];
+    const rest = threads.slice(1);
+
+    
+    const flatItem = { id: current!.id, author: current!.author, text: current!.text };
+
+    
+    const accWithReplies = this.flattenThreads(current!.replies, [...acc, flatItem]);
+
+    
+    return this.flattenThreads(rest, accWithReplies);
+  }
+}
+
+
+const postDiscussion: Comment[] = [
+
+  {
+    id: "c1",
+    author: "Alice",
+    text: "I love learning recursion!",
+
+    replies: [
+      {
+        id: "c2",
+        author: "Bob",
+        text: "Same! Accumulators are magic.",
+        replies: [
+          { id: "c3", author: "Charlie", text: "It finally clicked for me today.", replies: [] }
+        ]
+      }
+    ]
+  },
+
+
+
+  {
+    id: "c4",
+    author: "David",
+    text: "Can someone explain the slice method again?",
+    replies: []
+  }
+
+
+];
+
+const engine = new ThreadEngine();
+
+console.log("Total Comments in Database:", engine.countTotalComments(postDiscussion)); 
+
+
+console.log("Flat Feed for Mobile:", engine.flattenThreads(postDiscussion));
+
+
+function buildCommentIndex(threads: Comment[], indexMap: Map<string, Comment> = new Map()): Map<string,Comment>{
+
+
+  if(threads.length < 1) return indexMap
+  const currentThread = threads[0];
+  const rest = threads.slice(1);
+
+  indexMap.set(currentThread!.id, currentThread!)
+
+  if(currentThread!.replies && currentThread!.replies.length > 0){
+    buildCommentIndex(currentThread!.replies, indexMap)
+  }
+
+  return buildCommentIndex(rest, indexMap)
+}
+
+const commentIndex = buildCommentIndex(postDiscussion);
+console.log(commentIndex.get("c2"))
