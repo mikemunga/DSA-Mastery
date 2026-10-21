@@ -1219,6 +1219,8 @@ class TreeNode1 {
   }
 }
 
+
+
 function insertNode(root: TreeNode1 | null, newValue: number): TreeNode1 {
   
   if (root === null) {
@@ -1244,3 +1246,58 @@ nodeA.left = nodeB
 nodeB.left = nodeC
 insertNode(nodeA, 100)
 console.log(nodeA)
+
+
+
+
+
+function multipyBy(arr: number[]):number[]{
+  if(arr.length < 1) return []
+  let [elem=0,...rest] = arr
+  return [elem! * 2,... multipyBy(rest)]
+}
+console.log(multipyBy([1,2,3,6,8]))
+
+
+function evenNums(arr:number[]):number[]{
+  if(arr.length < 1) return [];
+const elem = arr[0];
+const rest = arr.slice(1)
+
+if(elem! %2 !==0){
+  //if the element doest meet our goal call next the rest
+  return evenNums(rest)
+} else {
+  //else put it inside the returned array
+  return [elem! - 2, ...evenNums(rest)]
+}
+}
+
+console.log(evenNums([4,56,23,44,5,9,3]))
+
+
+function sumAllNumbers(arr: number[], acc: number = 0): number {
+  if(arr.length < 1) return acc
+  let [elem,...rest] = arr;
+
+  return sumAllNumbers(rest, acc + elem!)
+
+}
+
+console.log(sumAllNumbers([34,56,78], 10))
+
+
+function flattenArray(array:any[], acc:any[] = []):any[] {
+  if(array.length < 1) return acc;
+  let first = array[0];
+  let rest = array.slice(1)
+
+  if(Array.isArray(first)){
+    return flattenArray(rest,[...acc, ...flattenArray(first)])
+  } else{
+    return flattenArray(rest, [...acc, first])
+  }
+
+}
+
+console.log(flattenArray([1,2,3,[34,18,[90,56,[90,100]]]]))
